@@ -2,6 +2,8 @@ import { Text, Spinner } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { PlanetCard } from "./StarWarsPage/PlanetCard";
 import { Error } from "../assets/components/Error";
+import axios from "axios";
+
 const url = "http://swapi.dev/api/";
 
 export const StarWarsPage = () => {
