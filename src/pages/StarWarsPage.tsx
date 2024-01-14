@@ -1,38 +1,32 @@
 import { Text, Spinner } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { PlanetCard } from "./StarWarsPage/PlanetCard";
 import { Error } from "../assets/components/Error";
 import axios from "axios";
 
-const url = "http://swapi.dev/api/";
 
 export const StarWarsPage = () => {
-  const [presentedPlanets, setPresentedPlanets] = useState([]);
+  const [presentedPlanets, setPresentedPlanets] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const [searchPlanets, setSearchPlanets] = useState("");
+  const url = "http://swapi.dev/api/";
 
   useEffect(() => {
     async function fetchPlanets() {
       setIsLoading(true);
-      try {
-        const response = await fetch(url + "planets/");
-        const resData = await response.json();
-        if (!response.ok) {
-          throw new Error("Failed to fetch planets.");
-        }
-        setPresentedPlanets(resData.planets);
-      } catch (error) {
-        setError(error);
-      }
+      
+      axios.get(url + "planets/")
+      .then((res: object): void => {setPresentedPlanets(res)})
+      .catch((error: FC): Element => {
+        console.log(error);
+        return <Error />
+      })
+      
       setIsLoading(false);
     }
 
     fetchPlanets();
   }, []);
-
-  if (error) {
-    return;
-  }
 
   return (
     <>
@@ -41,6 +35,9 @@ export const StarWarsPage = () => {
       <Text fontSize="xl">
         try to type name of a planet, or for example climate of planet
       </Text>
+      <form>
+        <input type="text"></input>
+      </form>
       <Text>Your planets</Text>
       {isLoading ? <Spinner /> : <PlanetCard name={"Tatooine"} />}
       {presentedPlanets}

@@ -24,7 +24,7 @@ export const Error = () => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Customer
+              {errorHeader}
             </AlertDialogHeader>
 
             <AlertDialogBody>
